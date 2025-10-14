@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("Movement Settings")]
+    public Transform gameCamera; // reference to your main camera
     public float moveSpeed = 5f;
     public float bounceForce = 12f;
     public float initialBounce = 24f; // fixed spelling
@@ -33,9 +33,9 @@ public class PlayerController : MonoBehaviour
         playerRb.linearVelocity = new Vector3(horizontal * moveSpeed, playerRb.linearVelocity.y, 0f);
 
         // Game-over check
-        if (transform.position.y < -10f)
+        if (transform.position.y < gameCamera.position.y - 20f)
         {
-            Debug.Log("Game Over!");
+            FindFirstObjectByType<GameManager>().GameOver();
         }
     }
 
