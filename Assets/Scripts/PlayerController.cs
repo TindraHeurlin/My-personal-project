@@ -6,24 +6,31 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float bounceForce = 12f;
+    public float initialBounce = 24f; // fixed spelling
 
-    private Rigidbody rb;
+    private Rigidbody playerRb;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
-        rb.useGravity = true;
+        playerRb = GetComponent<Rigidbody>();
+        playerRb.freezeRotation = true;
+        playerRb.useGravity = true;
 
-        // Initial jump to start movement
-        Bounce();
+        // Delayed initial bounce to ensure physics has started
+        Invoke(nameof(InitialBounce), 0.1f);
+    }
+
+    void InitialBounce()
+    {
+        // Apply a stronger first jump
+        playerRb.linearVelocity = new Vector3(playerRb.linearVelocity.x, initialBounce, 0f);
     }
 
     void Update()
     {
         // Left–right control
         float horizontal = Input.GetAxis("Horizontal");
-        rb.linearVelocity = new Vector3(horizontal * moveSpeed, rb.linearVelocity.y, 0f);
+        playerRb.linearVelocity = new Vector3(horizontal * moveSpeed, playerRb.linearVelocity.y, 0f);
 
         // Game-over check
         if (transform.position.y < -10f)
@@ -35,7 +42,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // Bounce only on platforms and only if landing from above
-        if (collision.gameObject.CompareTag("Platform") && rb.linearVelocity.y <= 0f)
+        if (collision.gameObject.CompareTag("Platform") && playerRb.linearVelocity.y <= 0f)
         {
             Bounce();
         }
@@ -43,6 +50,6 @@ public class PlayerController : MonoBehaviour
 
     void Bounce()
     {
-        rb.linearVelocity = new Vector3(rb.linearVelocity.x, bounceForce, 0f);
+        playerRb.linearVelocity = new Vector3(playerRb.linearVelocity.x, bounceForce, 0f);
     }
 }
