@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject startCanvas;
     public GameObject gameOverCanvas;
+    public TextMeshProUGUI levelText;
     private bool isGameActive = false;
     private bool isGameOver = false;
 
@@ -40,7 +41,11 @@ public class GameManager : MonoBehaviour
     isGameOver = false;
     
     player = FindFirstObjectByType<PlayerController>();
-    nextLevelY = levelHeight;
+        nextLevelY = levelHeight;
+    
+    levelText.text = "LEVEL " + currentLevel;
+
+
 
         
     }
@@ -120,7 +125,7 @@ public class GameManager : MonoBehaviour
         section.scrollSpeed += scrollSpeedIncrease;
     }
 
-    Debug.Log("LEVEL UP! Level: " + currentLevel + " | Scroll speed increased by " + scrollSpeedIncrease);
+    levelText.text = "LEVEL " + currentLevel;
     }
 
 
