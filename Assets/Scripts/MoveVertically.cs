@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MoveVertically : MonoBehaviour
 {
-    public float scrollSpeed = 2f;
+    public float scrollSpeed = 1f;
 
     void Update()
     {
