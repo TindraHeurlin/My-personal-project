@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Level System")]
     public int currentLevel = 1;
+    public int score = 0;
     public float levelHeight = 100f;
     private float nextLevelY = 100f;
 
@@ -113,18 +114,25 @@ public class GameManager : MonoBehaviour
     }
     public void NextLevel()
     {
-    if (!isGameActive) return;
+        if (!isGameActive) return;
 
-    currentLevel++;
+        currentLevel++;
 
-    // Find every RepeatSection in the scene and increase its scroll speed
-    RepeatSection[] sections = FindObjectsByType<RepeatSection>(FindObjectsSortMode.None);
-    foreach (RepeatSection section in sections)
-    {
-        section.scrollSpeed += scrollSpeedIncrease;
+        // Find every RepeatSection in the scene and increase its scroll speed
+        RepeatSection[] sections = FindObjectsByType<RepeatSection>(FindObjectsSortMode.None);
+        foreach (RepeatSection section in sections)
+        {
+            section.scrollSpeed += scrollSpeedIncrease;
+        }
+
+        levelText.text = "LEVEL " + currentLevel;
     }
-
-    levelText.text = "LEVEL " + currentLevel;
+    
+    public void AddScore(int amount)
+    {
+        // Increase score and show it in the Console for now
+        score += amount;
+        Debug.Log("Score: " + score);
     }
 
 

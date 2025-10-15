@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
@@ -8,6 +9,8 @@ public class PlayerController : MonoBehaviour
     public float bounceForce = 12f;
     public float initialBounce = 17;//old 24f; // fixed spelling
     public float fastFall = 2.5f; //arrowkey down fall
+    private bool isBoosted = false; // check if powerup is active
+
 
     private Rigidbody playerRb;
 
@@ -33,7 +36,7 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         playerRb.linearVelocity = new Vector3(horizontal * moveSpeed, playerRb.linearVelocity.y, 0f);
 
-        // --- NEW FEATURE: Down arrow to fall faster ---
+        // Down arrow to fall faster 
         if (Input.GetKey(KeyCode.DownArrow) && playerRb.linearVelocity.y <= 0f)
         {
             playerRb.linearVelocity += Vector3.down * fastFall;
@@ -48,15 +51,58 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Bounce only on platforms and only if landing from above
+        if (isBoosted)
+        {
+            // Skip bouncing while ghost mode is active
+            return;
+        }
+
+        // Bounce normally when landing on a platform
         if (collision.gameObject.CompareTag("Platform") && playerRb.linearVelocity.y <= 0f)
         {
             Bounce();
         }
     }
 
+
     void Bounce()
     {
-        playerRb.linearVelocity = new Vector3(playerRb.linearVelocity.x, bounceForce, 0f);
+        // If the player has a power-up
+        if (isBoosted)
+            {
+                playerRb.linearVelocity = new Vector3(playerRb.linearVelocity.x, bounceForce * 1.5f, 0f);
+            }
+        // Otherwise, use the normal bounce
+        else
+            {
+                playerRb.linearVelocity = new Vector3(playerRb.linearVelocity.x, bounceForce, 0f);
+            }
     }
+
+
+    //PowerUp Trigger
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("PowerUp"))
+        {
+    
+            // Tell the GameManager to add score
+            GameManager gameManager = FindFirstObjectByType<GameManager>();
+            if (gameManager != null)
+            {
+                gameManager.AddScore(1);
+            }
+
+            // Print to the console for debugging
+            Debug.Log("PowerUp collected! +1 point");
+
+            // Destroy the PowerUp object so it's "collected"
+            Destroy(other.gameObject);
+        }
+    }
+
+
+  
+
+
 }
