@@ -447,7 +447,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100046}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0f550709c698545819513b11a97f719d, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -459,8 +459,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 2.7260494, z: 0.6340802}
-  m_Center: {x: 0, y: 1.3409281, z: 0.003538251}
+  m_Size: {x: 2, y: 0, z: 0.6340802}
+  m_Center: {x: 0, y: 0, z: 0.003538251}
 --- !u!114 &8672118365516071450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,8 +473,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97dbd77d13b1e4d37a7665cbaf993e99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCamera: {fileID: 0}
   moveSpeed: 10
-  jumpForce: 10
+  bounceForce: 11
+  initialBounce: 22
 --- !u!1 &103886
 GameObject:
   m_ObjectHideFlags: 0
