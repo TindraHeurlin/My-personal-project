@@ -27,12 +27,11 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+    // Show start screen
+    startCanvas.SetActive(true);
     
     // Pause the game until the player starts
     Time.timeScale = 0f;
-
-    // Show start screen
-    startCanvas.SetActive(true);
 
     // Hide Game Over screen (in case it’s active from previous session)
     gameOverCanvas.SetActive(false);
