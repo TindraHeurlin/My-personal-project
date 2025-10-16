@@ -7,9 +7,15 @@ public class GameManager : MonoBehaviour
 {
     public GameObject startCanvas;
     public GameObject gameOverCanvas;
-    public TextMeshProUGUI levelText;
+    //public TextMeshProUGUI levelText;
     private bool isGameActive = false;
     private bool isGameOver = false;
+
+    [Header("Rank System")]
+    public int powerUpCount = 0;
+    public string currentRank = "Pawn";
+    public TextMeshProUGUI rankText; // drag UI text in Inspector
+
 
     [Header("Level System")]
     public int currentLevel = 1;
@@ -41,9 +47,13 @@ public class GameManager : MonoBehaviour
     isGameOver = false;
     
     player = FindFirstObjectByType<PlayerController>();
-        nextLevelY = levelHeight;
+    nextLevelY = levelHeight;
+
+   // levelText.text = "LEVEL " + currentLevel;
     
-    levelText.text = "LEVEL " + currentLevel;
+    if (rankText != null)
+    rankText.text = "Rank: " + currentRank;
+
 
 
 
@@ -125,15 +135,37 @@ public class GameManager : MonoBehaviour
             section.scrollSpeed += scrollSpeedIncrease;
         }
 
-        levelText.text = "LEVEL " + currentLevel;
+       // levelText.text = "LEVEL " + currentLevel;
     }
-    
+
     public void AddScore(int amount)
     {
-        // Increase score and show it in the Console for now
         score += amount;
+        powerUpCount += amount; // count powerups for rank system
+        UpdateRank();           // check if we level up in rank
         Debug.Log("Score: " + score);
     }
+    
+    public void UpdateRank()
+    {
+        string previousRank = currentRank;
+
+        if (powerUpCount < 1)
+            currentRank = "Pawn";
+        else if (powerUpCount < 2)
+            currentRank = "Knight";
+        else if (powerUpCount < 3)
+            currentRank = "Rook";
+        else if (powerUpCount < 4)
+            currentRank = "Bishop";
+        else
+            currentRank = "Queen";
+
+        if (rankText != null)
+            rankText.text = "Rank: " + currentRank;
+    }
+
+
 
 
 }
