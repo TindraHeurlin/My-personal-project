@@ -8,6 +8,8 @@ TagManager:
   - Wall
   - Platform
   - Start Platform
+  - Powerup
+  - PowerUp
   layers:
   - Default
   - TransparentFX

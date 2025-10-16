@@ -9,7 +9,9 @@ public class PlayerController : MonoBehaviour
     public float bounceForce = 12f;
     public float initialBounce = 17;//old 24f; // fixed spelling
     public float fastFall = 2.5f; //arrowkey down fall
+    public ParticleSystem jumpParticle;
     private bool isBoosted = false; // check if powerup is active
+    private bool isGameOver = false;
 
 
     private Rigidbody playerRb;
@@ -43,10 +45,16 @@ public class PlayerController : MonoBehaviour
         }
 
         // Game-over check
-        if (transform.position.y < gameCamera.position.y - 20f)
+        if (!isGameOver && transform.position.y < gameCamera.position.y - 20f)
         {
+            isGameOver = true; // mark that the game has ended
+
+            // Play sound once
+            FindFirstObjectByType<SoundEffects>().PlayGameOver();
+
+            // Trigger Game Over logic (UI + freeze)
             FindFirstObjectByType<GameManager>().GameOver();
-        }
+         }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -75,7 +83,11 @@ public class PlayerController : MonoBehaviour
         // Otherwise, use the normal bounce
         else
             {
-                playerRb.linearVelocity = new Vector3(playerRb.linearVelocity.x, bounceForce, 0f);
+            playerRb.linearVelocity = new Vector3(playerRb.linearVelocity.x, bounceForce, 0f);
+            jumpParticle.Play();
+            FindFirstObjectByType<SoundEffects>().PlayBounce();
+                
+
             }
     }
 
@@ -90,6 +102,7 @@ public class PlayerController : MonoBehaviour
             GameManager gameManager = FindFirstObjectByType<GameManager>();
             if (gameManager != null)
             {
+                FindFirstObjectByType<SoundEffects>().PlayPowerUp();
                 gameManager.AddScore(1);
             }
 
