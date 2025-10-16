@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public int powerUpCount = 0;
     public string currentRank = "Pawn";
     public TextMeshProUGUI rankText; // drag UI text in Inspector
-
+    public TextMeshProUGUI rankResultText; // shows rank on Game Over screen
 
     [Header("Level System")]
     public int currentLevel = 1;
@@ -111,10 +111,14 @@ public class GameManager : MonoBehaviour
         // Show Game Over UI
         gameOverCanvas.SetActive(true);
 
+        // Display the title they earned
+        if (rankResultText != null)
+        rankResultText.text = "You earned the title of " + currentRank;
+
     }
 
     // Reloads the current scene so the player can play again
-    void RestartGame()
+    public void RestartGame()
     {
         // Resume normal time speed
         Time.timeScale = 1f;
@@ -169,3 +173,5 @@ public class GameManager : MonoBehaviour
 
 
 }
+
+
