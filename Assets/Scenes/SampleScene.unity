@@ -1962,7 +1962,7 @@ GameObject:
   - component: {fileID: 283580955}
   - component: {fileID: 283580954}
   m_Layer: 5
-  m_Name: Level Text
+  m_Name: Level Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2627,10 +2627,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 283580957}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 26, y: 1080}
+  m_SizeDelta: {x: 26, y: 320}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &426660121
 MonoBehaviour:
@@ -8659,7 +8659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23137255, g: 0.18431373, b: 0.18431373, a: 0.99215686}
+  m_Color: {r: 0.23137255, g: 0.18431373, b: 0.18431373, a: 0.98039216}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
