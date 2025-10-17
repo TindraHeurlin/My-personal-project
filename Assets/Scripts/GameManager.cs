@@ -7,74 +7,48 @@ public class GameManager : MonoBehaviour
 {
     public GameObject startCanvas;
     public GameObject gameOverCanvas;
-    //public TextMeshProUGUI levelText;
+    private PlayerController player; //Player reference
     private bool isGameActive = false;
     private bool isGameOver = false;
 
-    [Header("Rank System")]
+    //Rank System
     public int powerUpCount = 0;
     public string currentRank = "Pawn";
-    public TextMeshProUGUI rankText; // drag UI text in Inspector
-    public TextMeshProUGUI rankResultText; // shows rank on Game Over screen
+    public TextMeshProUGUI rankText; 
+    public TextMeshProUGUI speedText;
+    public TextMeshProUGUI rankResultText;
 
-    [Header("Level System")]
+    //Level Speed System
     public int currentLevel = 1;
     public int score = 0;
     public float levelHeight = 100f;
     private float nextLevelY = 100f;
 
-    [Header("Difficulty Settings")]
+    //Difficulty Settings
     public float scrollSpeedIncrease = 0.2f; // how much faster the world scrolls each level
-
-
-    // Reference to the player
-    private PlayerController player;
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-    // Show start screen
-    startCanvas.SetActive(true);
     
-    // Pause the game until the player starts
-    Time.timeScale = 0f;
-
-    // Hide Game Over screen (in case it’s active from previous session)
-    gameOverCanvas.SetActive(false);
-
-    isGameActive = false;
-    isGameOver = false;
-    
+    startCanvas.SetActive(true); // Show start screen
+    Time.timeScale = 0f; // Pause the game until the player starts
+    gameOverCanvas.SetActive(false); // Hide Game Over screen
+        isGameActive = false;
+        isGameOver = false;
     player = FindFirstObjectByType<PlayerController>();
     nextLevelY = levelHeight;
-
-   // levelText.text = "LEVEL " + currentLevel;
     
+    // Rank Text always displayed at Start
     if (rankText != null)
     rankText.text = "Rank: " + currentRank;
 
-
-
-
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Start the game when player presses Space
-        if (!isGameActive && Input.GetKeyDown(KeyCode.Space))
-        {
-            StartGame();
-        }
-
-        // If the game is over and the player presses R, restart the game
-        if (isGameOver && Input.GetKeyDown(KeyCode.R))
-        {
-            RestartGame();
-        }
-
         //Check level
         if (isGameActive && Camera.main != null && Camera.main.transform.position.y > nextLevelY)
         {
@@ -90,7 +64,13 @@ public class GameManager : MonoBehaviour
         startCanvas.SetActive(false);
         gameOverCanvas.SetActive(false);
 
-        Debug.Log("Game Started!");
+        // Show starting speed when the game begins
+        RepeatSection section = FindFirstObjectByType<RepeatSection>();
+        if (section != null && speedText != null)
+        {
+            speedText.text = "Chess Speed: " + section.scrollSpeed.ToString("F1") + "x";
+        }
+
     }
 
     // This method is called when the player falls off the map
@@ -111,9 +91,10 @@ public class GameManager : MonoBehaviour
         // Show Game Over UI
         gameOverCanvas.SetActive(true);
 
-        // Display the title they earned
         if (rankResultText != null)
-        rankResultText.text = "You earned the title of " + currentRank;
+        rankResultText.text = 
+        "Through every move and misstep,\n" +
+        "you’ve earned the title of " + currentRank;
 
     }
 
@@ -134,13 +115,24 @@ public class GameManager : MonoBehaviour
 
         // Find every RepeatSection in the scene and increase its scroll speed
         RepeatSection[] sections = FindObjectsByType<RepeatSection>(FindObjectsSortMode.None);
+        float newSpeed = 0f;
+
         foreach (RepeatSection section in sections)
         {
             section.scrollSpeed += scrollSpeedIncrease;
+            newSpeed = section.scrollSpeed; // save the current value
         }
 
-       // levelText.text = "LEVEL " + currentLevel;
+        // Always display the current scroll speed
+        if (speedText != null)
+        {
+            speedText.text = "Chess Speed: " + newSpeed.ToString("F1") + "x";
+
+        }
+
+        // Debug.Log("Level " + currentLevel + " reached. New scroll speed: " + newSpeed);
     }
+
 
     public void AddScore(int amount)
     {
@@ -168,10 +160,6 @@ public class GameManager : MonoBehaviour
         if (rankText != null)
             rankText.text = "Rank: " + currentRank;
     }
-
-
-
-
 }
 
 
