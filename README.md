@@ -38,7 +38,7 @@ Main focus: combining simple gameplay with a cohesive, chess-inspired aesthetic.
 ---
 
 ## Play the Game
-Find Chess to Climb here: [XXXX)
+Find Chess to Climb here: [(https://tindrah.itch.io/the-chess-climb-by-tindra-heurlin))
 See more games made by me: [https://tindrah.itch.io/)  
 
 ---
